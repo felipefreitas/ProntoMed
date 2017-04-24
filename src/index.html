@@ -1,14 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br" ng-app="prontomed">
 <head>
-	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <meta name="description" content="Medical management resources for clinic">
     <meta name="author" content="Felipe Freitas and Guilherme Medeiros">
 
 	<title>ProntoMed</title>
-</head>
-<body>
 
+	<link rel="shortcut icon" href="favicon.ico" />
+    <link rel="icon" href="favicon.ico" />
+
+    <!-- STYLES -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+
+    <!-- JAVASCRIPT -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/tether/dist/js/tether.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="app/app.module.js"></script>
+
+    <!-- JAVASCRIPT COMPONENTS -->
+    <script src="app/components/account/account.js"></script>
+
+</head>
+<body ng-cloak>
+    <div class="container">
+	   <div ui-view></div>
+    </div>
 </body>
 </html>
