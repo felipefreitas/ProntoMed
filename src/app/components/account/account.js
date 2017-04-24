@@ -37,7 +37,7 @@
             views: {
                 'header': { templateUrl: 'app/shareds/anon.header.html' },
                 'content': { 
-                    templateUrl: 'app/components/account/singup.patient.html', 
+                    templateUrl: 'app/components/account/signup.patient.html', 
                     controller: 'accountController'
                 }
             }
