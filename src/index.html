@@ -16,14 +16,28 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/custom.css">
 
-
     <!-- JAVASCRIPT -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/tether/dist/js/tether.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.min.js"></script>
 	<script src="app/app.module.js"></script>
+    
+    <script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyBzDiyTHO9njsSuzHfGiHCuR0FJzsveL-I",
+        authDomain: "prontomed-be7cc.firebaseapp.com",
+        databaseURL: "https://prontomed-be7cc.firebaseio.com",
+        projectId: "prontomed-be7cc",
+        storageBucket: "prontomed-be7cc.appspot.com",
+        messagingSenderId: "447224824218"
+      };
+      firebase.initializeApp(config);
+    </script>
 
     <!-- JAVASCRIPT COMPONENTS -->
     <script src="app/components/account/account.js"></script>

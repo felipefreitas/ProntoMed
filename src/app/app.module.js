@@ -2,7 +2,8 @@
     'use strict';
 
 	var app = angular.module('prontomed', [
-		'ui.router'
+		'ui.router',
+        'ngMessages'
 	]);
 
 	app.config(function ($stateProvider, $locationProvider) {

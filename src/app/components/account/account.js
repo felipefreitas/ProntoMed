@@ -42,10 +42,17 @@
                 }
             }
         })
-
 	};
 
     function accountController($scope){
+        $scope.messages = {};
 
+        $scope.login = function (identifier, password){
+            var account = null; //TODO: Call account service.
+
+            if (!account) {
+                $scope.messages['account-not-existent'] = {};
+            }
+        };
     };
 })();

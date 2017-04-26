@@ -1,11 +1,4 @@
-<!-- VALIDATION MESSAGES -->
-<div ng-messages="messages">
-  <div ng-message="password-invalid" class="alert alert-danger">
-      <strong>Ops!</strong> Sua senha ou usuário estão incorretos.
-  </div>
-</div>
-
-<form class="form-signin">
+<form class="form-signin" ng-submit="login('teste', 'teste')" name="loginForm">
   <div class="text-center">
     <img src="assets/img/logo_sm.png" class="img-fluid" style="width: 200px; height: 200px;" alt="Responsive image"> 
   </div>
@@ -13,10 +6,24 @@
   <p class="lead text-center">
     Entre com seus dados para acessar
   </p>
+  <!-- VALIDATION MESSAGES -->
+  <div ng-messages="loginForm.$error">
+    <div ng-message="minlength" class="alert alert-warning">
+      <strong>Ops!</strong> A senha deve conter no mínimo 6 caracteres.
+    </div>
+  </div>
+  <div ng-messages="messages">
+    <div ng-message="password-invalid" class="alert alert-danger">
+        <strong>Ops!</strong> Sua senha ou usuário estão incorretos.
+    </div>
+    <div ng-message="account-not-existent" class="alert alert-danger">
+        Você precisa criar uma conta para acessar o <strong>Prontomed</strong>
+    </div>
+  </div>
   <label for="inputEmail" class="sr-only">CRM ou CPF</label>
-  <input type="email" id="inputEmail" class="form-control" placeholder="Digite seu CRM ou CPF" required autofocus>
+  <input type="text" id="inputEmail" class="form-control" placeholder="Digite seu CRM ou CPF" required autofocus>
   <label for="inputPassword" class="sr-only">Digite sua senha</label>
-  <input type="password" id="inputPassword" class="form-control" placeholder="Digite sua senha" required>
+  <input type="password" id="inputPassword" class="form-control" placeholder="Digite sua senha" ng-minlength="6" ng-model="password" ng-model-options="{ updateOn: 'blur' }" required>
   <div class="checkbox">
     <label>
       <input type="checkbox" value="remember-me"> Lembrar me
