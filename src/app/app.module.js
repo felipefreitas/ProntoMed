@@ -6,7 +6,7 @@
         'ngMessages'
 	]);
 
-    var config = {
+    var firebase_config = {
         apiKey: "AIzaSyBzDiyTHO9njsSuzHfGiHCuR0FJzsveL-I",
         authDomain: "prontomed-be7cc.firebaseapp.com",
         databaseURL: "https://prontomed-be7cc.firebaseio.com",
@@ -15,8 +15,12 @@
         messagingSenderId: "447224824218"
       };
 
-    firebase.initializeApp(config);
+    firebase.initializeApp(firebase_config);
 
+    //CONSTANTS
+    app.config('FIREBASE', firebase_config);
+
+    //CONFIGS
 	app.config(function ($stateProvider, $locationProvider) {
         $locationProvider.hashPrefix('');
 
@@ -26,6 +30,7 @@
         })
     });
 
+    //RUNS
     app.run(function ($rootScope, $state, $stateParams) {
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
