@@ -6,6 +6,17 @@
         'ngMessages'
 	]);
 
+    var config = {
+        apiKey: "AIzaSyBzDiyTHO9njsSuzHfGiHCuR0FJzsveL-I",
+        authDomain: "prontomed-be7cc.firebaseapp.com",
+        databaseURL: "https://prontomed-be7cc.firebaseio.com",
+        projectId: "prontomed-be7cc",
+        storageBucket: "prontomed-be7cc.appspot.com",
+        messagingSenderId: "447224824218"
+      };
+
+    firebase.initializeApp(config);
+
 	app.config(function ($stateProvider, $locationProvider) {
         $locationProvider.hashPrefix('');
 
