@@ -4,9 +4,11 @@
 	angular
 		.module('prontomed')
 		.controller('accountController', accountController)
+        .factory('accountService', accountService)
 		.config(accountConfig);
 
-    accountController.$inject = ['$scope'];
+    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService'];
+    accountService.$inject = ['FIREBASE_APP'];
 
 	function accountConfig($stateProvider){
 
@@ -44,7 +46,7 @@
         })
 	};
 
-    function accountController($scope){
+    function accountController($scope, accountService){
         $scope.messages = {};
 
         $scope.login = function (identifier, password){
@@ -55,4 +57,73 @@
             }
         };
     };
+
+    function accountService(FIREBASE_APP){
+        var service = this;
+        var database = FIREBASE_APP.database();
+
+        service.getDoctorAccount = _getDoctorAccount;
+        service.getPatientAccount = _getPatientAccount;
+        service.signupDoctor = _signupDoctor;
+        service.signupPatient = _signupPatient;
+
+        function _getDoctorAccount (crm, password){
+            var doctorsRef = database.ref('accounts/doctors/' + crm);
+
+            doctorsRef.on('value', function (data) {
+                return {
+                    'crm': data.key,
+                    'name': data.val().name,
+                    'lastname': data.val().lastname,
+                    'specialist': data.val().specialist,
+                    'password': data.val().password
+                };
+            });
+        };
+
+        function _getPatientAccount (cpf, password){
+            var patientsRef = database.ref('accounts/patients/' + cpf);
+
+            patientsRef.on('value', function (data) {
+                return {
+                    'cpf': data.key,
+                    'name': data.val().name,
+                    'lastname': data.val().lastname,
+                    'birthday': data.val().birthday,
+                    'partner': data.val().partner
+                    'password': data.val().password
+                };
+            });
+        };
+
+        function _signupDoctor (name, lastname, crm, specialist, password) {
+            var doctorsRef = database.ref('accounts/doctors/' + crm);
+            var doctor = {
+                'name': name,
+                'lastname': lastname,
+                'crm': crm,
+                'specialist': specialist,
+                'password': password
+            };
+
+            return doctorsRef.set(doctor);
+        };
+
+        function _signupPatient (name, lastname, birthday, partner, cpf, password) {
+            var patientsRef = database.ref('accounts/patients/' + cpf);
+            var patient = {
+                'name': name,
+                'lastname': lastname,
+                'birthday': birthday,
+                'partner': partner,
+                'cpf': cpf,
+                'password': password
+            };
+
+            return patientsRef.set(patient);
+        };
+
+        return service;
+    };
+
 })();

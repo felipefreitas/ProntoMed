@@ -15,10 +15,10 @@
         messagingSenderId: "447224824218"
       };
 
-    firebase.initializeApp(firebase_config);
+    var firebaseApp = firebase.initializeApp(firebase_config);
 
     //CONSTANTS
-    app.config('FIREBASE', firebase_config);
+    app.constant('FIREBASE_APP', firebaseApp);
 
     //CONFIGS
 	app.config(function ($stateProvider, $locationProvider) {
