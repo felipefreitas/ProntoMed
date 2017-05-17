@@ -106,7 +106,7 @@
                     'name': data.val().name,
                     'lastname': data.val().lastname,
                     'birthday': data.val().birthday,
-                    'partner': data.val().partner
+                    'partner': data.val().partner,
                     'password': data.val().password
                 };
             });
