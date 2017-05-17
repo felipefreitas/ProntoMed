@@ -7,7 +7,7 @@
         .factory('accountService', accountService)
 		.config(accountConfig);
 
-    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService'];
+    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state'];
     accountService.$inject = ['FIREBASE_APP'];
 
 	function accountConfig($stateProvider){
@@ -46,11 +46,25 @@
         })
 	};
 
-    function accountController($scope, accountService){
+    function accountController($scope, accountService, $state){
         $scope.messages = {};
 
-        $scope.login = function (identifier, password){
-            var account = null; //TODO: Call account service.
+        $scope.login = function (identifier, password, type){
+            var account = {};
+
+            if (type == 'doctor') {
+                account = accountService.getDoctorAccount(identifier, password);
+
+                if (account) {
+                    $state.go('portal.doctor');
+                }
+            } else if (type == 'patient') {
+                account = accountService.getDoctorAccount(identifier, password);
+
+                if (account) {
+                    $state.go('portal.patient');
+                }
+            }
 
             if (!account) {
                 $scope.messages['account-not-existent'] = {};
@@ -71,13 +85,15 @@
             var doctorsRef = database.ref('accounts/doctors/' + crm);
 
             doctorsRef.on('value', function (data) {
-                return {
+                var doctor = {
                     'crm': data.key,
                     'name': data.val().name,
                     'lastname': data.val().lastname,
                     'specialist': data.val().specialist,
                     'password': data.val().password
                 };
+
+                return doctor;
             });
         };
 
