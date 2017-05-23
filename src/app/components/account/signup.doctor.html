@@ -1,28 +1,47 @@
 <div class="jumbotron form-signup" style="background-color: white !important;">
-	<form>
+	<form class="form-singUpDoctor" ng-submit="singUpDoctor()" name="singUpDoctorForm">
+	  <!-- LOGO -->
 	  <div class="text-center">
 	    <img src="assets/img/logo_sm.png" class="img-fluid" style="width: 200px; height: 200px;" alt="Responsive image"> 
 	  </div>
+	  <!-- TITULO -->
 	  <h1 class="display-4 text-center">Bem Vindo!</h1>
 	  <p class="lead text-center">
 	    Insira seus dados para começar
 	  </p>
+	  <!-- MENSAGENS DE ERRO!! -->
+	  <div ng-messages="singUpDoctorForm.Name.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	      	<strong>Ops!</strong> O campo Nome deve conter apenas letras.
+	    </div>
+	  </div>
+	  <div ng-messages="singUpDoctorForm.lastname.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	    	<strong>Ops!</strong> O campo Sobrenome deve conter apenas letras.
+	    </div>
+	  </div>
+	  <div ng-messages="singUpDoctorForm.password.$error">
+	    <div ng-message="minlength" class="alert alert-warning">
+	      	<strong>Ops!</strong> A senha deve conter no mínimo 6 caracteres.
+	    </div>
+	  </div>
+	  <!--CAMPOS DE INPUT -->
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="Nome">
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="Name" type="text" class="form-control" placeholder="Nome" ng-model="Name" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="Sobrenome">
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="lastname" type="text" class="form-control" placeholder="Sobrenome" ng-model="lastname" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="CRM">
+				<input ng-pattern="/^\d{9}[B][R]$/" name="CRM" type="text" class="form-control" placeholder="CRM" ng-model="CRM"  required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
@@ -34,7 +53,7 @@
 	  <div class="row">
 	  	<div class="col-sm-12">
 	  		<div class="form-group">
-				<input type="password" class="form-control" placeholder="Senha">
+				<input name="password" type="password" class="form-control" placeholder="Senha" ng-minlength="6" ng-model="password" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>

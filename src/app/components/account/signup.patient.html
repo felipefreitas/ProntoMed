@@ -1,48 +1,83 @@
 <div class="jumbotron form-signup" style="background-color: white !important;">
-	<form>
+	<form class="form-signUpPatient" ng-submit="singUpPatient()" name="singUpPatientForm">
+	  <!-- LOGO -->
 	  <div class="text-center">
 	    <img src="assets/img/logo_sm.png" class="img-fluid" style="width: 200px; height: 200px;" alt="Responsive image"> 
 	  </div>
+	  <!-- TITULO -->
 	  <h1 class="display-4 text-center">Bem Vindo!</h1>
 	  <p class="lead text-center">
 	    Insira seus dados para começar
 	  </p>
+	  <!-- MENSAGENS DE ERRO!! -->
+	  <div ng-messages="singUpPatientForm.CPF.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	     	<strong>Ops!</strong> O campo CPF deve conter 11 números.
+	    </div>
+	  </div>
+	  <div ng-messages="singUpPatientForm.Name.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	      	<strong>Ops!</strong> O campo Nome deve conter apenas letras.
+	    </div>
+	  </div>
+	  <div ng-messages="singUpPatientForm.lastname.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	    	<strong>Ops!</strong> O campo Sobrenome deve conter apenas letras.
+	    </div>
+	  </div>
+	  <div ng-messages="singUpPatientForm.birthday.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	    	<strong>Ops!</strong> O campo data deve ser preenchido com dd/mm/aaaa.
+	    </div>
+	  </div>
+	  <div ng-messages="singUpPatientForm.partner.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	    	<strong>Ops!</strong> O campo Convenio deve conter apenas letras.
+	    </div>
+	  </div>
+	  <div ng-messages="singUpPatientForm.password.$error">
+	    <div ng-message="minlength" class="alert alert-warning">
+	      	<strong>Ops!</strong> A senha deve conter no mínimo 6 caracteres.
+	    </div>
+	  </div>
+	  <!--CAMPOS DE INPUT -->
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="Nome">
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="Name" type="text" class="form-control" placeholder="Nome" ng-model="Name" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="Sobrenome">
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="lastname" type="text" class="form-control" placeholder="Sobrenome" ng-model="lastname" ng-model-options="{ updateOn: 'blur' }" required>
+		  	</div>
+	  	</div>
+	  </div>
+	  <div class="row">
+	  	<div class="col-sm-6">
+	  		<div class="form-group"><!-- FALTA NÃO DEIXAR DATA MAIOR QUE A ATUAL -->
+				<input ng-pattern="/^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[012])\/[1][0-9]{3}$/" name="birthday" type="text" class="form-control" placeholder="dd/mm/aaaa" place-holder="birthday" ng-model="birthday" ng-model-options="{ updateOn: 'blur' }" required>
+		  	</div>
+	  	</div>
+	  	<div class="col-sm-6">
+	  		<div class="form-group">
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="partner" type="text" class="form-control" placeholder="Convênio" ng-model="partner" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="Data de Nascimento">
+				<input input ng-pattern="/^\d{11}$/" name="CPF" type="text" class="form-control" placeholder="CPF" ng-model="CPF" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="Convênio">
+				<input name="password" type="password" class="form-control" placeholder="Senha" ng-minlength="6" ng-model="password" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>
-	  <div class="row">
-	  	<div class="col-sm-6">
-	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="CPF">
-		  	</div>
-	  	</div>
-	  	<div class="col-sm-6">
-	  		<div class="form-group">
-				<input type="password" class="form-control" placeholder="Senha">
-		  	</div>
-	  	</div>
-	  </div>
+	  <!-- Botão de registro -->
 	  <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
 	</form>
 </div>

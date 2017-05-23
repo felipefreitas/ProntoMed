@@ -46,20 +46,24 @@
         })
 	};
 
-    function accountController($scope, accountService, $state){
+    function accountController($scope, FIREBASE_APP, accountService, $state){
         $scope.messages = {};
 
-        $scope.login = function (identifier, password, type){
+        $scope.login = function (identifier, password){
             var account = {};
 
             if (type == 'doctor') {
                 account = accountService.getDoctorAccount(identifier, password);
 
                 if (account) {
+
                     $state.go('portal.doctor');
+                } else {
+
                 }
+
             } else if (type == 'patient') {
-                account = accountService.getDoctorAccount(identifier, password);
+                account = accountService.getPatientAccount(identifier, password);
 
                 if (account) {
                     $state.go('portal.patient');
@@ -70,6 +74,14 @@
                 $scope.messages['account-not-existent'] = {};
             }
         };
+
+        $scope.singUpPatient = function(name, lastnane, birthday, partner, identifier, password){
+
+        }
+
+        $scope.singUpDoctor = function(name, lastnane, identifier, speciallity, password){
+            
+        }
     };
 
     function accountService(FIREBASE_APP){
@@ -79,6 +91,7 @@
         service.getDoctorAccount = _getDoctorAccount;
         service.getPatientAccount = _getPatientAccount;
         service.signupDoctor = _signupDoctor;
+        service.deleteDoctor = _deleteDoctor;
         service.signupPatient = _signupPatient;
 
         function _getDoctorAccount (crm, password){
@@ -123,6 +136,12 @@
             };
 
             return doctorsRef.set(doctor);
+        };
+
+        function _deleteDoctor (crm) {
+            var doctorsRef = database.ref('accounts/doctors/' + crm);
+
+            return doctorsRef.unset();
         };
 
         function _signupPatient (name, lastname, birthday, partner, cpf, password) {
