@@ -20,6 +20,7 @@
     "jquery": "3.1.1",
     "bootstrap": "v4.0.0-alpha.6",
     "angular-ui-router": "0.4.2",
-    "firebase": "^3.9.0"
+    "firebase": "^3.9.0",
+    "ngMask": "angular-mask#^3.1.1"
   }
 }

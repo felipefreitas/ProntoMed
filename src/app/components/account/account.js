@@ -48,6 +48,7 @@
 
     function accountController($scope, FIREBASE_APP, accountService, $state){
         $scope.messages = {};
+        $scope.today = new Date();
 
         $scope.login = function (identifier, password){
             var account = {};
