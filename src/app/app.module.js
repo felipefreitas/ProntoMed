@@ -4,7 +4,8 @@
 	var app = angular.module('prontomed', [
 		'ui.router',
         'ngMessages',
-        'ngMask'
+        'ngMask',
+        'prontomed.widgets'
 	]);
 
     var firebase_config = {

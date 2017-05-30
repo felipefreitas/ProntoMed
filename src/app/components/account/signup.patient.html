@@ -26,10 +26,13 @@
 	    </div>
 	  </div>
 	  <div ng-messages="singUpPatientForm.birthday.$error">
-	    <div ng-message="pattern" class="alert alert-warning">
+	    <div ng-message="mask" class="alert alert-warning">
 	    	<strong>Ops!</strong> O campo data deve ser preenchido com dd/mm/aaaa.
 	    </div>
 	    <div ng-message="max" class="alert alert-warning">
+	    	<strong>Ops!</strong> A data de nascimento não deve ser superior a data atual.
+	    </div>
+	    <div ng-message="less-today" class="alert alert-warning">
 	    	<strong>Ops!</strong> A data de nascimento não deve ser superior a data atual.
 	    </div>
 	  </div>
@@ -59,7 +62,7 @@
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group"><!-- FALTA NÃO DEIXAR DATA MAIOR QUE A ATUAL -->
-				<input name="birthday" type="text-center" class="form-control" placeholder="Nascimento" mask="2999/19/39" ng-model="birthday" ng-model-options="{ updateOn: 'blur' }" ng-max="{{today | 'yyyy/MM/dd'}}" required>
+				<input name="birthday" type="text-center" class="form-control" placeholder="Nascimento" mask="39/19/2999" ng-model="birthday" less-today="birthday"  ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
