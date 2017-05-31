@@ -25,6 +25,11 @@
 	      	<strong>Ops!</strong> A senha deve conter no mínimo 6 caracteres.
 	    </div>
 	  </div>
+	  <div ng-messages="singUpDoctorForm.CRM.$error">
+	    <div ng-message="pattern" class="alert alert-warning">
+	      	<strong>Ops!</strong> Digite um CRM válido.
+	    </div>
+	  </div>
 	  <!--CAMPOS DE INPUT -->
 	  <div class="row">
 	  	<div class="col-sm-6">
@@ -41,12 +46,43 @@
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input ng-pattern="/^\d{9}[B][R]$/" name="CRM" type="text" class="form-control" placeholder="CRM" ng-model="CRM"  required>
+				<input ng-pattern="/^\d{9}[B][R]$/" name="CRM" type="text" class="form-control" placeholder="CRM" ng-model="CRM" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input type="text" class="form-control" placeholder="Especialidade">
+	  			<select class="form-control" multiple="multiple" id="speciality" ng-model="speciality">
+			        <option>Selecione a especialidade</option>
+					<option>ACUPUNTURA</option>
+					<option>ALERGIA E IMUNOLOGIA</option>
+					<option>ALERGIA E IMUNOLOGIA PEDIATRICA</option>
+					<option>ANESTESIOLOGIA</option>
+					<option>ANGIOLOGIA E CIRURGIA VASCULAR</option>
+					<option>ANGIORRADIOLOGIA E CIRURGIA ENDOVASCULAR</option>
+					<option>CARDIOLOGIA</option>
+					<option>CARDIOLOGIA PEDIATRICA</option>
+					<option>CIRURGIA CARDIOVASCULAR</option>
+					<option>CIRURGIA CRANIO-MAXILO-FACIAL</option>
+					<option>CIRURGIA DA MAO</option>
+					<option>CIRURGIA DE CABECA E PESCOCO</option>
+					<option>CIRURGIA DO TRAUMA</option>
+					<option>CIRURGIA GERAL</option>
+					<option>CIRURGIA PEDIATRICA</option>
+					<option>CIRURGIA PLASTICA</option>
+					<option>CIRURGIA TORACICA</option>
+					<option>CIRURGIA VIDEOLAPAROSCOPICA</option>
+					<option>CLINICA MEDICA</option>
+					<option>COLOPROCTOLOGIA</option>
+					<option>DENSITOMETRIA OSSEA</option>
+					<option>DERMATOLOGIA</option>
+					<option>DOR</option>
+					<option>ECOCARDIOGRAFIA</option>
+					<option>ECOGRAFIA VASCULAR COM DOPPLER</option>
+					<option>ELETROFISIOLOGIA CLINICA INVASIVA</option>
+					<option>ELETRONEUROMIOGRAFIA</option>
+					<option>ENDOCRINOLOGIA E METABOLOGIA</option>
+					<option>ENDOCRINOLOGIA PEDIATRICA</option>
+		      	</select>
 		  	</div>
 	  	</div>
 	  </div>
@@ -60,3 +96,10 @@
 	  <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
 	</form>
 </div>
+
+<script>
+	$("#speciality").select2({
+	  tags: true,
+	  tokenSeparators: [',', ' ']
+	});
+</script>

@@ -56,7 +56,6 @@
                 account = accountService.getDoctorAccount(identifier, password);
 
                 if (account) {
-
                     $state.go('portal.doctor');
                 } else {
 
