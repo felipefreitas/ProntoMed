@@ -6,7 +6,6 @@
   <p class="lead text-center">
     Entre com seus dados para acessar
   </p>
-  <!-- VALIDATION MESSAGES -->
   <div ng-messages="loginForm.identifier.$error">
     <div ng-message="minlength" class="alert alert-warning">
       <strong>Ops!</strong> O campo CRM/CPF deve conter 11 caracteres.
@@ -21,21 +20,24 @@
     </div>
   </div>
   <div ng-messages="messages">
-    <div ng-message="password-invalid" class="alert alert-danger">
+    <div ng-message="loginFailed" class="alert alert-danger">
         <strong>Ops!</strong> Sua senha ou usuário estão incorretos.
     </div>
-    <div ng-message="account-not-existent" class="alert alert-danger">
+    <div ng-message="accountNotExistent" class="alert alert-danger">
         Você precisa criar uma conta para acessar o <strong>Prontomed</strong>
+    </div>
+    <div ng-message="failedSystem" class="alert alert-danger">
+        Estamos com um problema e já estamos consertando. Em breve, tente novamente acessar o <strong>Prontomed</strong>
     </div>
   </div>
   <label for="identifier" class="sr-only">CRM ou CPF</label>
-  <input name="identifier" type="text" id="identifier" class="form-control" placeholder="Digite seu CRM ou CPF" ng-minlength="11" ng-maxlength="11" ng-model="signup.identifier" ng-model-options="{ updateOn: 'blur' }" required autofocus>
+  <input name="identifier" type="text" id="identifier" class="form-control" placeholder="Digite seu CRM ou CPF" ng-minlength="11" ng-maxlength="11" ng-model="signup.identifier" ng-model-options="{ debounce: 2000 }" required autofocus>
   <label for="inputPassword" class="sr-only">Digite sua senha</label>
-  <input name="password" type="password" id="password" class="form-control" placeholder="Digite sua senha" ng-minlength="6" ng-model="signup.password" ng-model-options="{ updateOn: 'blur' }" required>
+  <input name="password" type="password" id="password" class="form-control" placeholder="Digite sua senha" ng-minlength="6" ng-model="signup.password" ng-model-options="{ debounce: 2000 }" required>
   <div class="checkbox">
     <label>
       <input type="checkbox" value="remember-me"> Lembrar me
     </label>
   </div>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
+  <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="loginForm.$invalid">Entrar</button>
 </form>

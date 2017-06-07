@@ -50,27 +50,44 @@
         $scope.messages = {};
 
         $scope.login = function (identifier, password){
-            var account = {};
+            var isDoctor = identifier.includes('BR');
 
-            if (type == 'doctor') {
-                account = accountService.getDoctorAccount(identifier);
+            if (isDoctor == true) {
+                var promise = accountService.getDoctorAccount(identifier);
 
-                if (account) {
-                    $state.go('portal.doctor');
-                } else {
+                promise.then(function(account){
+                    if (account) {
+                        if (account.password == password) {
+                            $state.go('portal.doctor');
+                        } else {
+                            $scope.messages['loginFailed'] = true;
+                        }
+                    } else {
+                        $scope.messages['accountNotExistent'] = true;
+                    }
+                    $scope.$apply();    
+                }, function(error){
+                    $scope.messages['failedSystem'] = true;
+                    $scope.$apply();
+                });
+            } else {
+                var promise = accountService.getPatientAccount(identifier);
 
-                }
-
-            } else if (type == 'patient') {
-                account = accountService.getPatientAccount(identifier);
-
-                if (account) {
-                    $state.go('portal.patient');
-                }
-            }
-
-            if (!account) {
-                $scope.messages['not-existent'] = {};
+                promise.then(function(account){
+                    if (account) {
+                        if (account.password == password) {
+                            $state.go('portal.patient');
+                        } else {
+                            $scope.messages['loginFailed'] = true;
+                        }
+                    } else {
+                        $scope.messages['accountNotExistent'] = true;
+                    }
+                    $scope.$apply(); 
+                }, function(error){
+                    $scope.messages['failedSystem'] = true;
+                    $scope.$apply();
+                });
             }
         };
 
