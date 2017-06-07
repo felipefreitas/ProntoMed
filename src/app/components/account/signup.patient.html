@@ -1,31 +1,28 @@
 <div class="jumbotron form-signup" style="background-color: white !important;">
-	<form class="form-signUpPatient" ng-submit="singUpPatient()" name="singUpPatientForm">
-	  <!-- LOGO -->
+	<form ng-submit="signupPatient(signup.name, signup.lastname, signup.birthday, signup.partner, signup.cpf, signup.password)" name="signupForm">
 	  <div class="text-center">
 	    <img src="assets/img/logo_sm.png" class="img-fluid" style="width: 200px; height: 200px;" alt="Responsive image"> 
 	  </div>
-	  <!-- TITULO -->
 	  <h1 class="display-4 text-center">Bem Vindo!</h1>
 	  <p class="lead text-center">
 	    Insira seus dados para começar
 	  </p>
-	  <!-- MENSAGENS DE ERRO!! -->
-	  <div ng-messages="singUpPatientForm.CPF.$error">
+	  <div ng-messages="signupForm.CPF.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	     	<strong>Ops!</strong> O campo CPF deve conter 11 números.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpPatientForm.Name.$error">
+	  <div ng-messages="signupForm.Name.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	      	<strong>Ops!</strong> O campo Nome deve conter apenas letras.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpPatientForm.lastname.$error">
+	  <div ng-messages="signupForm.lastname.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	    	<strong>Ops!</strong> O campo Sobrenome deve conter apenas letras.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpPatientForm.birthday.$error">
+	  <div ng-messages="signupForm.birthday.$error">
 	    <div ng-message="mask" class="alert alert-warning">
 	    	<strong>Ops!</strong> O campo data deve ser preenchido com dd/mm/aaaa.
 	    </div>
@@ -36,54 +33,52 @@
 	    	<strong>Ops!</strong> A data de nascimento não deve ser superior a data atual.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpPatientForm.partner.$error">
+	  <div ng-messages="signupForm.partner.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	    	<strong>Ops!</strong> O campo Convenio deve conter apenas letras.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpPatientForm.password.$error">
+	  <div ng-messages="signupForm.password.$error">
 	    <div ng-message="minlength" class="alert alert-warning">
 	      	<strong>Ops!</strong> A senha deve conter no mínimo 6 caracteres.
 	    </div>
 	  </div>
-	  <!--CAMPOS DE INPUT -->
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="Name" type="text" class="form-control" placeholder="Nome" ng-model="Name" ng-model-options="{ updateOn: 'blur' }" required>
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="Name" type="text" class="form-control" placeholder="Nome" ng-model="signup.name" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="lastname" type="text" class="form-control" placeholder="Sobrenome" ng-model="lastname" ng-model-options="{ updateOn: 'blur' }" required>
-		  	</div>
-	  	</div>
-	  </div>
-	  <div class="row">
-	  	<div class="col-sm-6">
-	  		<div class="form-group"><!-- FALTA NÃO DEIXAR DATA MAIOR QUE A ATUAL -->
-				<input name="birthday" type="text-center" class="form-control" placeholder="Nascimento" mask="39/19/2999" ng-model="birthday" less-today="birthday"  ng-model-options="{ updateOn: 'blur' }" required>
-		  	</div>
-	  	</div>
-	  	<div class="col-sm-6">
-	  		<div class="form-group">
-				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="partner" type="text" class="form-control" placeholder="Convênio" ng-model="partner" ng-model-options="{ updateOn: 'blur' }" required>
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="lastname" type="text" class="form-control" placeholder="Sobrenome" ng-model="signup.lastname" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input input ng-pattern="/^\d{11}$/" name="CPF" type="text" class="form-control" placeholder="CPF" ng-model="CPF" ng-model-options="{ updateOn: 'blur' }" required>
+				<input name="birthday" type="text-center" class="form-control" placeholder="Nascimento" mask="39/19/2999" ng-model="signup.birthday" less-today="signup.birthday"  ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input name="password" type="password" class="form-control" placeholder="Senha" ng-minlength="6" ng-model="password" ng-model-options="{ updateOn: 'blur' }" required>
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="partner" type="text" class="form-control" placeholder="Convênio" ng-model="signup.partner" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>
-	  <!-- Botão de registro -->
+	  <div class="row">
+	  	<div class="col-sm-6">
+	  		<div class="form-group">
+				<input input ng-pattern="/^\d{11}$/" name="CPF" type="text" class="form-control" placeholder="CPF" ng-model="signup.cpf" ng-model-options="{ updateOn: 'blur' }" required>
+		  	</div>
+	  	</div>
+	  	<div class="col-sm-6">
+	  		<div class="form-group">
+				<input name="password" type="password" class="form-control" placeholder="Senha" ng-minlength="6" ng-model="signup.password" ng-model-options="{ updateOn: 'blur' }" required>
+		  	</div>
+	  	</div>
+	  </div>
 	  <button class="btn btn-lg btn-primary btn-block" type="submit">Registrar</button>
 	</form>
 </div>
