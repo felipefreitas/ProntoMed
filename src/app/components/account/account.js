@@ -53,7 +53,7 @@
             var account = {};
 
             if (type == 'doctor') {
-                account = accountService.getDoctorAccount(identifier, password);
+                account = accountService.getDoctorAccount(identifier);
 
                 if (account) {
                     $state.go('portal.doctor');
@@ -62,7 +62,7 @@
                 }
 
             } else if (type == 'patient') {
-                account = accountService.getPatientAccount(identifier, password);
+                account = accountService.getPatientAccount(identifier);
 
                 if (account) {
                     $state.go('portal.patient');
@@ -70,17 +70,58 @@
             }
 
             if (!account) {
-                $scope.messages['account-not-existent'] = {};
+                $scope.messages['not-existent'] = {};
             }
         };
 
-        $scope.singUpPatient = function(name, lastnane, birthday, partner, identifier, password){
+        $scope.signupPatient = function(name, lastname, birthday, partner, identifier, password){
+            var promise = accountService.getPatientAccount(identifier);
 
-        }
+            promise.then(function(account){
+                if (account) {
+                    $scope.messages['accountExistent'] = true;
+                } else {
+                    var promise = accountService.signupPatient(name, lastname, birthday, partner, identifier, password);
 
-        $scope.singUpDoctor = function(name, lastnane, identifier, speciallity, password){
-            
-        }
+                    promise.then(function(account){
+                        $scope.messages['createdSuccess'] = true;
+                        $scope.$apply();
+                    }, function(error){
+                        $scope.messages['serverFailed'] = true;
+                        $scope.$apply();
+                    });
+                }
+                $scope.$apply();
+            }, function(error){
+                $scope.messages['serverFailed'] = true;
+                $scope.$apply();
+            });
+        };
+
+        $scope.signupDoctor = function(name, lastname, identifier, speciallity, password){
+            var promise = accountService.getDoctorAccount(identifier);
+
+            promise.then(function(account){
+                if (account) {
+                    $scope.messages['accountExistent'] = true;
+                } else {
+                    var promise = accountService.signupDoctor(name, lastname, identifier, speciallity, password);
+
+                    promise.then(function(account){
+                        $scope.messages['createdSuccess'] = true;
+                        $scope.$apply();
+                    }, function(error){
+                        $scope.messages['serverFailed'] = true;
+                        $scope.$apply();
+                    });
+                }
+                $scope.$apply();
+            }, function(error){
+                $scope.messages['serverFailed'] = true;
+                $scope.$apply();
+            });
+        };
+
     };
 
     function accountService(FIREBASE_APP){
@@ -93,39 +134,48 @@
         service.deleteDoctor = _deleteDoctor;
         service.signupPatient = _signupPatient;
 
-        function _getDoctorAccount (crm, password){
-            var doctorsRef = database.ref('accounts/doctors/' + crm);
+        function _getDoctorAccount (crm){
+            var doctorsRef = database.ref('/accounts/doctors/' + crm);
 
-            doctorsRef.on('value', function (data) {
-                var doctor = {
-                    'crm': data.key,
-                    'name': data.val().name,
-                    'lastname': data.val().lastname,
-                    'specialist': data.val().specialist,
-                    'password': data.val().password
-                };
-
-                return doctor;
+            return doctorsRef.once('value').then(function(data) {
+                if (data.val()) {
+                    var doctor = {
+                        'crm': data.key,
+                        'name': data.val().name,
+                        'lastname': data.val().lastname,
+                        'specialist': data.val().specialist,
+                        'password': data.val().password
+                    };
+                    return doctor;
+                }
+            }, function (error){
+                throw error;
             });
         };
 
-        function _getPatientAccount (cpf, password){
-            var patientsRef = database.ref('accounts/patients/' + cpf);
+        function _getPatientAccount (cpf){
+            var patientsRef = database.ref('/accounts/patients/' + cpf);
 
-            patientsRef.on('value', function (data) {
-                return {
-                    'cpf': data.key,
-                    'name': data.val().name,
-                    'lastname': data.val().lastname,
-                    'birthday': data.val().birthday,
-                    'partner': data.val().partner,
-                    'password': data.val().password
-                };
+            return patientsRef.once('value').then(function(data) {
+                if (data.val()) {
+                    var patient = {
+                        'cpf': data.key,
+                        'name': data.val().name,
+                        'lastname': data.val().lastname,
+                        'birthday': data.val().birthday,
+                        'partner': data.val().partner,
+                        'password': data.val().password
+                    };
+                    return patient;
+                }
+            }, function (error){
+                throw error;
             });
         };
 
         function _signupDoctor (name, lastname, crm, specialist, password) {
             var doctorsRef = database.ref('accounts/doctors/' + crm);
+            
             var doctor = {
                 'name': name,
                 'lastname': lastname,
@@ -145,6 +195,7 @@
 
         function _signupPatient (name, lastname, birthday, partner, cpf, password) {
             var patientsRef = database.ref('accounts/patients/' + cpf);
+            
             var patient = {
                 'name': name,
                 'lastname': lastname,

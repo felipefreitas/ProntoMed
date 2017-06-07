@@ -1,5 +1,5 @@
 <div class="jumbotron form-signup" style="background-color: white !important;">
-	<form class="form-singUpDoctor" ng-submit="singUpDoctor()" name="singUpDoctorForm">
+	<form class="form-signup" ng-submit="signupDoctor(signup.name, signup.lastname, signup.CRM, signup.speciality, signup.password)" name="signupDoctorForm" novalidate>
 	  <!-- LOGO -->
 	  <div class="text-center">
 	    <img src="assets/img/logo_sm.png" class="img-fluid" style="width: 200px; height: 200px;" alt="Responsive image"> 
@@ -10,48 +10,59 @@
 	    Insira seus dados para começar
 	  </p>
 	  <!-- MENSAGENS DE ERRO!! -->
-	  <div ng-messages="singUpDoctorForm.Name.$error">
+	  <div ng-messages="signupDoctorForm.Name.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	      	<strong>Ops!</strong> O campo Nome deve conter apenas letras.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpDoctorForm.lastname.$error">
+	  <div ng-messages="signupDoctorForm.lastname.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	    	<strong>Ops!</strong> O campo Sobrenome deve conter apenas letras.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpDoctorForm.password.$error">
+	  <div ng-messages="signupDoctorForm.password.$error">
 	    <div ng-message="minlength" class="alert alert-warning">
 	      	<strong>Ops!</strong> A senha deve conter no mínimo 6 caracteres.
 	    </div>
 	  </div>
-	  <div ng-messages="singUpDoctorForm.CRM.$error">
+	  <div ng-messages="signupDoctorForm.CRM.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	      	<strong>Ops!</strong> Digite um CRM válido.
+	    </div>
+	  </div>
+	  <div ng-messages="messages">
+	    <div ng-message="accountExistent" class="alert alert-danger">
+	        <strong>Atenção</strong> Já existe uma conta associada a este CRM.
+	    </div>
+	    <div ng-message="createdSuccess" class="alert alert-success">
+	        <strong>Muito bom!</strong> Criamos a sua conta com sucesso.
+	    </div>
+	    <div ng-message="serverFailed" class="alert alert-danger">
+	        <strong>Desculpe!</strong> Estamos com um problema no momento, tente mais tarde!
 	    </div>
 	  </div>
 	  <!--CAMPOS DE INPUT -->
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="Name" type="text" class="form-control" placeholder="Nome" ng-model="Name" ng-model-options="{ updateOn: 'blur' }" required>
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="Name" type="text" class="form-control" placeholder="Nome" ng-model="signup.name" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="lastname" type="text" class="form-control" placeholder="Sobrenome" ng-model="lastname" ng-model-options="{ updateOn: 'blur' }" required>
+				<input ng-pattern="/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ'\s]+$/" name="lastname" type="text" class="form-control" placeholder="Sobrenome" ng-model="signup.lastname" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input ng-pattern="/^\d{9}[B][R]$/" name="CRM" type="text" class="form-control" placeholder="CRM" ng-model="CRM" ng-model-options="{ updateOn: 'blur' }" required>
+				<input ng-pattern="/^\d{9}[B][R]$/" name="CRM" type="text" class="form-control" placeholder="CRM" ng-model="signup.CRM" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-	  			<select class="form-control" multiple="multiple" id="speciality" ng-model="speciality">
+	  			<select class="form-control" multiple="multiple" id="speciality" placeholder="Especialidades" ng-model="signup.speciality">
 			        <option>Selecione a especialidade</option>
 					<option>ACUPUNTURA</option>
 					<option>ALERGIA E IMUNOLOGIA</option>
@@ -89,7 +100,7 @@
 	  <div class="row">
 	  	<div class="col-sm-12">
 	  		<div class="form-group">
-				<input name="password" type="password" class="form-control" placeholder="Senha" ng-minlength="6" ng-model="password" ng-model-options="{ updateOn: 'blur' }" required>
+				<input name="password" type="password" class="form-control" placeholder="Senha" ng-minlength="6" ng-model="signup.password" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  </div>
@@ -100,6 +111,7 @@
 <script>
 	$("#speciality").select2({
 	  tags: true,
-	  tokenSeparators: [',', ' ']
+	  tokenSeparators: [',', ' '],
+	  placeholder: 'Especialidades'
 	});
 </script>
