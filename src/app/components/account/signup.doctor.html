@@ -1,15 +1,12 @@
 <div class="jumbotron form-signup" style="background-color: white !important;">
 	<form ng-submit="signupDoctor(signup.name, signup.lastname, signup.CRM, signup.speciality, signup.password)" name="signupDoctorForm" novalidate>
-	  <!-- LOGO -->
 	  <div class="text-center">
 	    <img src="assets/img/logo_sm.png" class="img-fluid" style="width: 200px; height: 200px;" alt="Responsive image"> 
 	  </div>
-	  <!-- TITULO -->
 	  <h1 class="display-4 text-center">Bem Vindo!</h1>
 	  <p class="lead text-center">
 	    Insira seus dados para começar
 	  </p>
-	  <!-- MENSAGENS DE ERRO!! -->
 	  <div ng-messages="signupDoctorForm.Name.$error">
 	    <div ng-message="pattern" class="alert alert-warning">
 	      	<strong>Ops!</strong> O campo Nome deve conter apenas letras.
@@ -31,17 +28,16 @@
 	    </div>
 	  </div>
 	  <div ng-messages="messages">
-	    <div ng-message="accountExistent" class="alert alert-danger">
-	        <strong>Atenção</strong> Já existe uma conta associada a este CRM.
-	    </div>
 	    <div ng-message="createdSuccess" class="alert alert-success">
 	        <strong>Muito bom!</strong> Criamos a sua conta com sucesso.
+	    </div>
+	    <div ng-message="accountExistent" class="alert alert-danger">
+	        <strong>Atenção</strong> Já existe uma conta associada a este CRM.
 	    </div>
 	    <div ng-message="serverFailed" class="alert alert-danger">
 	        <strong>Desculpe!</strong> Estamos com um problema no momento, tente mais tarde!
 	    </div>
 	  </div>
-	  <!--CAMPOS DE INPUT -->
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">

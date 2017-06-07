@@ -154,7 +154,8 @@
         };
 
         function _getPatientAccount (cpf){
-            var patientsRef = database.ref('/accounts/patients/' + cpf);
+            var identifier = cpf.replace(/\-/g,"").replace(/\./g,"");
+            var patientsRef = database.ref('/accounts/patients/' + identifier);
 
             return patientsRef.once('value').then(function(data) {
                 if (data.val()) {
@@ -194,14 +195,15 @@
         };
 
         function _signupPatient (name, lastname, birthday, partner, cpf, password) {
-            var patientsRef = database.ref('accounts/patients/' + cpf);
+            var identifier = cpf.replace(/\-/g,"").replace(/\./g,"");
+            var patientsRef = database.ref('accounts/patients/' + identifier);
             
             var patient = {
                 'name': name,
                 'lastname': lastname,
                 'birthday': birthday,
                 'partner': partner,
-                'cpf': cpf,
+                'cpf': identifier,
                 'password': password
             };
 

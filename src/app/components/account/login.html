@@ -1,4 +1,4 @@
-<form class="form-signin" ng-submit="login()" name="loginForm">
+<form class="form-signin" ng-submit="login(signup.identifier, signup.password)" name="loginForm" novalidate>
   <div class="text-center">
     <img src="assets/img/logo_sm.png" class="img-fluid" style="width: 200px; height: 200px;" alt="Responsive image"> 
   </div>
@@ -29,9 +29,9 @@
     </div>
   </div>
   <label for="identifier" class="sr-only">CRM ou CPF</label>
-  <input name="identifier" type="text" id="identifier" class="form-control" placeholder="Digite seu CRM ou CPF" ng-minlength="11" ng-maxlength="11" ng-model="identifier" ng-model-options="{ updateOn: 'blur' }" required autofocus>
+  <input name="identifier" type="text" id="identifier" class="form-control" placeholder="Digite seu CRM ou CPF" ng-minlength="11" ng-maxlength="11" ng-model="signup.identifier" ng-model-options="{ updateOn: 'blur' }" required autofocus>
   <label for="inputPassword" class="sr-only">Digite sua senha</label>
-  <input name="password" type="password" id="password" class="form-control" placeholder="Digite sua senha" ng-minlength="6" ng-model="password" ng-model-options="{ updateOn: 'blur' }" required>
+  <input name="password" type="password" id="password" class="form-control" placeholder="Digite sua senha" ng-minlength="6" ng-model="signup.password" ng-model-options="{ updateOn: 'blur' }" required>
   <div class="checkbox">
     <label>
       <input type="checkbox" value="remember-me"> Lembrar me

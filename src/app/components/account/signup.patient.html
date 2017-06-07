@@ -8,39 +8,53 @@
 	    Insira seus dados para começar
 	  </p>
 	  <div ng-messages="signupForm.CPF.$error">
-	    <div ng-message="pattern" class="alert alert-warning">
+	  	<div ng-message="mask" class="alert alert-warning fade show" role="alert">
+	    	<strong>Ops!</strong> O campo CPF deve conter 11 números no formato "999.999.999-99".
+	    </div>
+	    <div ng-message="pattern" class="alert alert-warning fade show" role="alert">
 	     	<strong>Ops!</strong> O campo CPF deve conter 11 números.
 	    </div>
 	  </div>
 	  <div ng-messages="signupForm.Name.$error">
-	    <div ng-message="pattern" class="alert alert-warning">
+	    <div ng-message="pattern" class="alert alert-warning fade show" role="alert">
 	      	<strong>Ops!</strong> O campo Nome deve conter apenas letras.
 	    </div>
 	  </div>
 	  <div ng-messages="signupForm.lastname.$error">
-	    <div ng-message="pattern" class="alert alert-warning">
+	    <div ng-message="pattern" class="alert alert-warning fade show" role="alert">
 	    	<strong>Ops!</strong> O campo Sobrenome deve conter apenas letras.
 	    </div>
 	  </div>
 	  <div ng-messages="signupForm.birthday.$error">
-	    <div ng-message="mask" class="alert alert-warning">
+	    <div ng-message="mask" class="alert alert-warning fade show" role="alert">
 	    	<strong>Ops!</strong> O campo data deve ser preenchido com dd/mm/aaaa.
 	    </div>
-	    <div ng-message="max" class="alert alert-warning">
+	    <div ng-message="max" class="alert alert-warning fade show" role="alert">
 	    	<strong>Ops!</strong> A data de nascimento não deve ser superior a data atual.
 	    </div>
-	    <div ng-message="less-today" class="alert alert-warning">
+	    <div ng-message="less-today" class="alert alert-warning fade show" role="alert">
 	    	<strong>Ops!</strong> A data de nascimento não deve ser superior a data atual.
 	    </div>
 	  </div>
 	  <div ng-messages="signupForm.partner.$error">
-	    <div ng-message="pattern" class="alert alert-warning">
+	    <div ng-message="pattern" class="alert alert-warning fade show" role="alert">
 	    	<strong>Ops!</strong> O campo Convenio deve conter apenas letras.
 	    </div>
 	  </div>
 	  <div ng-messages="signupForm.password.$error">
-	    <div ng-message="minlength" class="alert alert-warning">
+	    <div ng-message="minlength" class="alert alert-warning fade show" role="alert">
 	      	<strong>Ops!</strong> A senha deve conter no mínimo 6 caracteres.
+	    </div>
+	  </div>
+	   <div ng-messages="messages">
+	    <div ng-message="createdSuccess" class="alert alert-success fade show" role="alert">
+	        <strong>Muito bom!</strong> Criamos a sua conta com sucesso.
+	    </div>
+	    <div ng-message="accountExistent" class="alert alert-danger fade show" role="alert">
+	        <strong>Atenção</strong> Já existe uma conta associada a este CRM.
+	    </div>
+	    <div ng-message="serverFailed" class="alert alert-danger fade show" role="alert">
+	        <strong>Desculpe!</strong> Estamos com um problema no momento, tente mais tarde!
 	    </div>
 	  </div>
 	  <div class="row">
@@ -70,7 +84,7 @@
 	  <div class="row">
 	  	<div class="col-sm-6">
 	  		<div class="form-group">
-				<input input ng-pattern="/^\d{11}$/" name="CPF" type="text" class="form-control" placeholder="CPF" ng-model="signup.cpf" ng-model-options="{ updateOn: 'blur' }" required>
+				<input name="CPF" type="text" class="form-control" placeholder="CPF" mask="999.999.999-99" ng-model="signup.cpf" ng-model-options="{ updateOn: 'blur' }" required>
 		  	</div>
 	  	</div>
 	  	<div class="col-sm-6">
