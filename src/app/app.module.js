@@ -9,7 +9,8 @@
         'ngAnimate',
         'ngMaterial',
         'prontomed.widgets',
-        'prontomed.services'
+        'prontomed.services',
+        'prontomed.auth'
 	]);
 
     var firebase_config = {
@@ -18,9 +19,9 @@
         databaseURL: "https://prontomed-be7cc.firebaseio.com",
         projectId: "prontomed-be7cc",
         storageBucket: "prontomed-be7cc.appspot.com",
-        messagingSenderId: "447224824218"
-      };
-
+        messagingSenderId: "447224824218",
+    };
+    
     var firebaseApp = firebase.initializeApp(firebase_config);
 
     //CONSTANTS

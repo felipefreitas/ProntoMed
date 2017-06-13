@@ -8,7 +8,7 @@
         .factory('accountService', accountService)
 		.config(accountConfig);
 
-    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state', 'toastService'];
+    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state', 'toastService', 'authFirebaseService'];
     accountService.$inject = ['FIREBASE_APP'];
     editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', 'toastService', '$mdDialog'];
 
@@ -102,10 +102,9 @@
         })
 	};
 
-    function accountController($scope, FIREBASE_APP, accountService, $state, toastService){
+    function accountController($scope, FIREBASE_APP, accountService, $state, toastService, authFirebaseService){
         $scope.messages = {};
-        $scope.coctors = [];
-
+        
         $scope.login = function (identifier, password){
             var isDoctor = identifier.includes('BR');
 
