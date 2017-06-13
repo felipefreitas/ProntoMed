@@ -44,10 +44,22 @@
                 }
             }
         })
+
+        $stateProvider.state('portal.searchPatient', {
+            url: '/search/patient',
+            views: {
+                'header': { templateUrl: 'app/shareds/portal.header.html' },
+                'content': { 
+                    templateUrl: 'app/components/account/search.patient.html', 
+                    controller: 'accountController'
+                }
+            }
+        })
 	};
 
     function accountController($scope, FIREBASE_APP, accountService, $state){
         $scope.messages = {};
+        $scope.patients = [];
 
         $scope.login = function (identifier, password){
             var isDoctor = identifier.includes('BR');
@@ -139,6 +151,24 @@
             });
         };
 
+        $scope.searchPatient = function(cpf) {
+            var promise = accountService.getPatientAccountList(cpf);
+
+            promise.then(function(patients){
+                $scope.patients = patients;
+
+                if ($scope.patients.length == 0) {
+                    $scope.messages['searchFailed'] = true;
+                } else {
+                    $scope.messages['searchFailed'] = false;
+                }
+
+                $scope.$apply();
+
+            }, function(error){
+                $scope.messages['serverError'] = true;
+            });
+        };
     };
 
     function accountService(FIREBASE_APP){
@@ -147,6 +177,7 @@
 
         service.getDoctorAccount = _getDoctorAccount;
         service.getPatientAccount = _getPatientAccount;
+        service.getPatientAccountList = _getPatientAccountList;
         service.signupDoctor = _signupDoctor;
         service.deleteDoctor = _deleteDoctor;
         service.signupPatient = _signupPatient;
@@ -186,6 +217,30 @@
                     };
                     return patient;
                 }
+            }, function (error){
+                throw error;
+            });
+        };
+
+        function _getPatientAccountList (cpf){
+            var identifier = cpf.replace(/\-/g,"").replace(/\./g,"");
+            var patientsRef = database.ref('/accounts/patients/');
+
+            return patientsRef.orderByChild('cpf').startAt(cpf.toString()).once('value').then(function(data) {
+                var patients = [];
+                $.each(data.val(),function(){
+                    var patient = {
+                        'name': this.name,
+                        'lastname': this.lastname,
+                        'birthday': this.birthday,
+                        'partner': this.partner,
+                        'cpf': this.cpf                        
+                    }
+
+                    patients.push(patient);
+                });
+
+                return patients;
             }, function (error){
                 throw error;
             });
