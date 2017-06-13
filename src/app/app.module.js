@@ -5,10 +5,11 @@
         'ui.router',
         'ngMessages',
         'ngMask',
-        'prontomed.widgets',
         'ngAria',
         'ngAnimate',
-        'ngMaterial'
+        'ngMaterial',
+        'prontomed.widgets',
+        'prontomed.services'
 	]);
 
     var firebase_config = {
@@ -36,6 +37,13 @@
             abstract: true,
             templateUrl: 'app/shareds/anon.layout.html'
         })
+    });
+
+    app.config(function($mdThemingProvider) {
+        $mdThemingProvider.theme('error-toast');
+        $mdThemingProvider.theme('success-toast');
+        $mdThemingProvider.theme('alert-toast');
+        $mdThemingProvider.theme('info-toast');
     });
 
     //RUNS

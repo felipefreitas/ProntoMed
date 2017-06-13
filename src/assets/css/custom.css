@@ -53,3 +53,16 @@ body {
 .table tr[ui-sref]{
     cursor: pointer;
 }
+
+/*TOAST STYLE*/
+md-toast.md-success-toast-theme .md-toast-content {
+    background-color: green;
+}
+
+md-toast.md-error-toast-theme .md-toast-content {
+    background-color: maroon;
+}
+
+md-toast {
+  left: calc(50vw - 150px);
+}

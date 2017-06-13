@@ -10,7 +10,7 @@
 
     accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state'];
     accountService.$inject = ['FIREBASE_APP'];
-    editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', '$mdToast'];
+    editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', 'toastService'];
 
 	function accountConfig($stateProvider){
 
@@ -189,15 +189,16 @@
         };
     };
 
-    function editAccountController($scope, $state, accountService, account, $ROUTE_DICT, $mdToast){
+    function editAccountController($scope, $state, accountService, account, $ROUTE_DICT, toastService){
         $scope.messages = {};
         $scope.account = account;
+                toastService.showSuccessMessage("Registro salvo com sucesso!");
 
         $scope.editPatient = function (name, lastname, birthday, partner) {
             var promise = accountService.updatePatient($scope.patient.cpf, name, lastname, birthday, partner);
 
             promise.then(function(account){
-                $scope.messages['editSuccess'] = true;
+                toastService.showSuccessMessage("Registro salvo com sucesso!");
                 $state.go($ROUTE_DICT.searchPatient);
                 $scope.$apply();
             }, function(error){
