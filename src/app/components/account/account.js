@@ -10,7 +10,7 @@
 
     accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state'];
     accountService.$inject = ['FIREBASE_APP'];
-    editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT'];
+    editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', '$mdToast'];
 
 	function accountConfig($stateProvider){
 
@@ -189,7 +189,7 @@
         };
     };
 
-    function editAccountController($scope, $state, accountService, account, $ROUTE_DICT){
+    function editAccountController($scope, $state, accountService, account, $ROUTE_DICT, $mdToast){
         $scope.messages = {};
         $scope.account = account;
 

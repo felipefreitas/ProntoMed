@@ -2,10 +2,13 @@
     'use strict';
 
 	var app = angular.module('prontomed', [
-		'ui.router',
+        'ui.router',
         'ngMessages',
         'ngMask',
-        'prontomed.widgets'
+        'prontomed.widgets',
+        'ngAria',
+        'ngAnimate',
+        'ngMaterial'
 	]);
 
     var firebase_config = {
