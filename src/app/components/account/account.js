@@ -3,12 +3,14 @@
 
 	angular
 		.module('prontomed')
-		.controller('accountController', accountController)
+        .controller('accountController', accountController)
+		.controller('editAccountController', editAccountController)
         .factory('accountService', accountService)
 		.config(accountConfig);
 
     accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state'];
     accountService.$inject = ['FIREBASE_APP'];
+    editAccountController.$inject = ['$scope', '$state', 'accountService', 'account'];
 
 	function accountConfig($stateProvider){
 
@@ -52,6 +54,22 @@
                 'content': { 
                     templateUrl: 'app/components/account/search.patient.html', 
                     controller: 'accountController'
+                }
+            }
+        })
+
+        $stateProvider.state('portal.editPatient', {
+            url: '/edit/patient/:id',
+            views: {
+                'header': { templateUrl: 'app/shareds/portal.header.html' },
+                'content': { 
+                    templateUrl: 'app/components/account/edit.patient.html', 
+                    controller: 'editAccountController',
+                    resolve: {
+                        account : function ($stateParams, accountService) {
+                            return accountService.getPatientAccount($stateParams.id);
+                        }
+                    }
                 }
             }
         })
@@ -168,6 +186,19 @@
             }, function(error){
                 $scope.messages['serverError'] = true;
             });
+        };
+    };
+
+    function editAccountController($scope, $state, accountService, account){
+        $scope.account = account;
+
+        $scope.editPatient = function (name, lastname, birthday, partner) {
+            // TODO: call service to update register
+        };
+
+        // TODO: edit method parameters
+        $scope.editDoctor = function () {
+            // TODO: call service to update register
         };
     };
 

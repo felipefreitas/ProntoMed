@@ -29,7 +29,7 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		  	<tr ng-repeat="patient in patients | orderBy: '-patient.name'" ng-click="editPatient(patient.cpf)">
+		  	<tr ng-repeat="patient in patients | orderBy: '-patient.name'" ui-sref="portal.editPatient({id:patient.cpf})">
 	            <th scope="row">#{{$index + 1}}</th>
 	            <td>{{patient.cpf}}</td>
 	            <td>{{patient.name}}</td>
