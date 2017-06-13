@@ -10,7 +10,7 @@
 
     accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state', 'toastService'];
     accountService.$inject = ['FIREBASE_APP'];
-    editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', 'toastService'];
+    editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', 'toastService', '$mdDialog'];
 
 	function accountConfig($stateProvider){
 
@@ -186,7 +186,7 @@
         };
     };
 
-    function editAccountController($scope, $state, accountService, account, $ROUTE_DICT, toastService){
+    function editAccountController($scope, $state, accountService, account, $ROUTE_DICT, toastService, $mdDialog){
         $scope.messages = {};
         $scope.account = account;
 
@@ -205,6 +205,28 @@
         $scope.editDoctor = function () {
             // TODO: call service to update register
         };
+
+        $scope.removePatient = function (cpf, event) {
+            var confirm = $mdDialog.confirm()
+                  .title('Confirma a exclusão deste registro?')
+                  .textContent('Todos os dados relacionados a este registro serão apagados.')
+                  .ariaLabel('Atenção')
+                  .targetEvent(event)
+                  .ok('Sim')
+                  .cancel('Não, desfazer operação')
+                  .theme('red');
+
+            $mdDialog.show(confirm).then(function() {
+                var promise = accountService.removePatient(cpf);
+
+                promise.then(function(){
+                    toastService.showSuccessMessage("Registro excluído com sucesso");
+                    $state.go($ROUTE_DICT.searchPatient);
+                }, function(error){
+                    toastService.showErrorMessage("Não conseguimos salvar a atualização, tente novamente.");
+                });
+            });
+        };
     };
 
     function accountService(FIREBASE_APP){
@@ -218,6 +240,7 @@
         service.deleteDoctor = _deleteDoctor;
         service.signupPatient = _signupPatient;
         service.updatePatient = _updatePatient;
+        service.removePatient = _removePatient;
 
         function _getDoctorAccount (crm){
             var doctorsRef = database.ref('/accounts/doctors/' + crm);
@@ -331,6 +354,13 @@
             };
 
             return patientsRef.update(patient);
+        };
+
+        function _removePatient (cpf) {
+            var identifier = cpf.replace(/\-/g,"").replace(/\./g,"");
+            var patientsRef = database.ref('accounts/patients/' + identifier);
+
+            return patientsRef.remove();
         };
 
         return service;
