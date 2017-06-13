@@ -63,6 +63,14 @@ md-toast.md-error-toast-theme .md-toast-content {
     background-color: maroon;
 }
 
+md-toast.md-alert-toast-theme .md-toast-content {
+    background-color: olive;
+}
+
+md-toast.md-info-toast-theme .md-toast-content {
+    background-color: teal;
+}
+
 md-toast {
   left: calc(50vw - 150px);
 }

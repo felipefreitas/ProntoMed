@@ -28,12 +28,39 @@
         };
 
         function _showErrorMessage (message){
+            this.message = message;
+
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent(message)
+                .position('top')
+                .theme('error-toast')
+                .hideDelay(3000)
+            );
         };
 
         function _showAlertMessage (message){
+            this.message = message;
+
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent(message)
+                .position('top')
+                .theme('alert-toast')
+                .hideDelay(3000)
+            );
         };
 
         function _showInfoMessage (message){
+            this.message = message;
+
+            $mdToast.show(
+              $mdToast.simple()
+                .textContent(message)
+                .position('top')
+                .theme('info-toast')
+                .hideDelay(3000)
+            );
         };
 
         return service;

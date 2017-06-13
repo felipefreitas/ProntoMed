@@ -8,7 +8,7 @@
         .factory('accountService', accountService)
 		.config(accountConfig);
 
-    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state'];
+    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state', 'toastService'];
     accountService.$inject = ['FIREBASE_APP'];
     editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', 'toastService'];
 
@@ -75,7 +75,7 @@
         })
 	};
 
-    function accountController($scope, FIREBASE_APP, accountService, $state){
+    function accountController($scope, FIREBASE_APP, accountService, $state, toastService){
         $scope.messages = {};
         $scope.patients = [];
 
@@ -176,15 +176,12 @@
                 $scope.patients = patients;
 
                 if ($scope.patients.length == 0) {
-                    $scope.messages['searchFailed'] = true;
-                } else {
-                    $scope.messages['searchFailed'] = false;
+                    toastService.showInfoMessage("Nenhum registro encontrado!");
                 }
 
                 $scope.$apply();
-
             }, function(error){
-                $scope.messages['serverError'] = true;
+                toastService.showErrorMessage("Estamos tendo problemas em nossos servidores :(. Tente novamente.");
             });
         };
     };
@@ -192,18 +189,15 @@
     function editAccountController($scope, $state, accountService, account, $ROUTE_DICT, toastService){
         $scope.messages = {};
         $scope.account = account;
-                toastService.showSuccessMessage("Registro salvo com sucesso!");
 
         $scope.editPatient = function (name, lastname, birthday, partner) {
-            var promise = accountService.updatePatient($scope.patient.cpf, name, lastname, birthday, partner);
+            var promise = accountService.updatePatient($scope.account.cpf, name, lastname, birthday, partner);
 
             promise.then(function(account){
                 toastService.showSuccessMessage("Registro salvo com sucesso!");
                 $state.go($ROUTE_DICT.searchPatient);
-                $scope.$apply();
             }, function(error){
-                $scope.messages['serverError'] = true;
-                $scope.$apply();
+                toastService.showErrorMessage("Não conseguimos salvar a atualização, tente novamente.");
             });
         };
 
@@ -223,6 +217,7 @@
         service.signupDoctor = _signupDoctor;
         service.deleteDoctor = _deleteDoctor;
         service.signupPatient = _signupPatient;
+        service.updatePatient = _updatePatient;
 
         function _getDoctorAccount (crm){
             var doctorsRef = database.ref('/accounts/doctors/' + crm);
@@ -322,6 +317,20 @@
             };
 
             return patientsRef.set(patient);
+        };
+
+        function _updatePatient (cpf, name, lastname, birthday, partner) {
+            var identifier = cpf.replace(/\-/g,"").replace(/\./g,"");
+            var patientsRef = database.ref('accounts/patients/' + identifier);
+            
+            var patient = {
+                'name': name,
+                'lastname': lastname,
+                'birthday': birthday,
+                'partner': partner,
+            };
+
+            return patientsRef.update(patient);
         };
 
         return service;
