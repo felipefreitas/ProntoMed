@@ -21,6 +21,9 @@
 
     //CONSTANTS
     app.constant('FIREBASE_APP', firebaseApp);
+    app.constant('$ROUTE_DICT', {
+        searchPatient: 'portal.searchPatient'
+    });
 
     //CONFIGS
 	app.config(function ($stateProvider, $locationProvider) {
