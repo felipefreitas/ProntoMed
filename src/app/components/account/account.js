@@ -58,6 +58,17 @@
             }
         })
 
+        $stateProvider.state('portal.searchDoctor', {
+            url: '/search/doctor',
+            views: {
+                'header': { templateUrl: 'app/shareds/portal.header.html' },
+                'content': { 
+                    templateUrl: 'app/components/account/search.doctor.html', 
+                    controller: 'accountController'
+                }
+            }
+        })
+
         $stateProvider.state('portal.editPatient', {
             url: '/edit/patient/:id',
             views: {
@@ -73,11 +84,27 @@
                 }
             }
         })
+
+        $stateProvider.state('portal.editDoctor', {
+            url: '/edit/doctor/:id',
+            views: {
+                'header': { templateUrl: 'app/shareds/portal.header.html' },
+                'content': { 
+                    templateUrl: 'app/components/account/edit.doctor.html', 
+                    controller: 'editAccountController',
+                    resolve: {
+                        account : function ($stateParams, accountService) {
+                            return accountService.getDoctorAccount($stateParams.id);
+                        }
+                    }
+                }
+            }
+        })
 	};
 
     function accountController($scope, FIREBASE_APP, accountService, $state, toastService){
         $scope.messages = {};
-        $scope.patients = [];
+        $scope.coctors = [];
 
         $scope.login = function (identifier, password){
             var isDoctor = identifier.includes('BR');
@@ -145,14 +172,14 @@
             });
         };
 
-        $scope.signupDoctor = function(name, lastname, identifier, speciallity, password){
+        $scope.signupDoctor = function(name, lastname, identifier, specialist, password){
             var promise = accountService.getDoctorAccount(identifier);
 
             promise.then(function(account){
                 if (account) {
                     $scope.messages['accountExistent'] = true;
                 } else {
-                    var promise = accountService.signupDoctor(name, lastname, identifier, speciallity, password);
+                    var promise = accountService.signupDoctor(name, lastname, identifier, specialist, password);
 
                     promise.then(function(account){
                         $scope.messages['createdSuccess'] = true;
@@ -184,11 +211,32 @@
                 toastService.showErrorMessage("Estamos tendo problemas em nossos servidores :(. Tente novamente.");
             });
         };
+
+        $scope.searchDoctor = function(data, type) {
+            var promise = accountService.getDoctorAccountList(data, type);
+
+            promise.then(function(doctors){
+                $scope.doctors = doctors;
+
+                if ($scope.doctors.length == 0) {
+                    toastService.showInfoMessage("Nenhum registro encontrado!");
+                }
+
+                $scope.$apply();
+            }, function(error){
+                toastService.showErrorMessage("Estamos tendo problemas em nossos servidores :(. Tente novamente.");
+            });
+        };
     };
 
     function editAccountController($scope, $state, accountService, account, $ROUTE_DICT, toastService, $mdDialog){
         $scope.messages = {};
         $scope.account = account;
+        var $specialistMult = $("#specialist").select2({
+            tags: true,
+            tokenSeparators: [',', ' ']
+            });
+        $specialistMult.val($scope.account.specialist).trigger("change");
 
         $scope.editPatient = function (name, lastname, birthday, partner) {
             var promise = accountService.updatePatient($scope.account.cpf, name, lastname, birthday, partner);
@@ -202,8 +250,15 @@
         };
 
         // TODO: edit method parameters
-        $scope.editDoctor = function () {
-            // TODO: call service to update register
+        $scope.editDoctor = function (name, lastname, specialist) {
+            var promise = accountService.updateDoctor($scope.account.crm, name, lastname, specialist);
+
+            promise.then(function(account){
+                toastService.showSuccessMessage("Registro salvo com sucesso!");
+                $state.go($ROUTE_DICT.searchDoctor);
+            }, function(error){
+                toastService.showErrorMessage("Não conseguimos salvar a atualização, tente novamente.");
+            });
         };
 
         $scope.removePatient = function (cpf, event) {
@@ -227,6 +282,28 @@
                 });
             });
         };
+
+        $scope.removeDoctor = function (crm, event) {
+            var confirm = $mdDialog.confirm()
+                  .title('Confirma a exclusão deste registro?')
+                  .textContent('Todos os dados relacionados a este registro serão apagados.')
+                  .ariaLabel('Atenção')
+                  .targetEvent(event)
+                  .ok('Sim')
+                  .cancel('Não, desfazer operação')
+                  .theme('red');
+
+            $mdDialog.show(confirm).then(function() {
+                var promise = accountService.removeDoctor(crm);
+
+                promise.then(function(){
+                    toastService.showSuccessMessage("Registro excluído com sucesso");
+                    $state.go($ROUTE_DICT.searchDoctor);
+                }, function(error){
+                    toastService.showErrorMessage("Não conseguimos salvar a atualização, tente novamente.");
+                });
+            });
+        };
     };
 
     function accountService(FIREBASE_APP){
@@ -236,11 +313,14 @@
         service.getDoctorAccount = _getDoctorAccount;
         service.getPatientAccount = _getPatientAccount;
         service.getPatientAccountList = _getPatientAccountList;
+        service.getDoctorAccountList = _getDoctorAccountList;
         service.signupDoctor = _signupDoctor;
         service.deleteDoctor = _deleteDoctor;
         service.signupPatient = _signupPatient;
         service.updatePatient = _updatePatient;
+        service.updateDoctor = _updateDoctor;
         service.removePatient = _removePatient;
+        service.removeDoctor = _removeDoctor;
 
         function _getDoctorAccount (crm){
             var doctorsRef = database.ref('/accounts/doctors/' + crm);
@@ -306,6 +386,28 @@
             });
         };
 
+        function _getDoctorAccountList (data, type){
+            var doctorsRef = database.ref('/accounts/doctors/');
+
+            return doctorsRef.orderByChild(type).startAt(data.toString()).once('value').then(function(data) {
+                var doctors = [];
+                $.each(data.val(),function(){
+                    var doctor = {
+                        'name': this.name,
+                        'lastname': this.lastname,
+                        'specialist': this.specialist.toString(),
+                        'crm': this.crm
+                    }
+
+                    doctors.push(doctor);
+                });
+
+                return doctors;
+            }, function (error){
+                throw error;
+            });
+        };
+
         function _signupDoctor (name, lastname, crm, specialist, password) {
             var doctorsRef = database.ref('accounts/doctors/' + crm);
             
@@ -356,11 +458,31 @@
             return patientsRef.update(patient);
         };
 
+        function _updateDoctor (crm, name, lastname, specialist) {
+            var identifier = crm.replace(/\-/g,"").replace(/\./g,"");
+            var doctorsRef = database.ref('accounts/doctors/' + identifier);
+            
+            var doctor = {
+                'name': name,
+                'lastname': lastname,
+                'specialist': specialist
+            };
+
+            return doctorsRef.update(doctor);
+        };
+
         function _removePatient (cpf) {
             var identifier = cpf.replace(/\-/g,"").replace(/\./g,"");
             var patientsRef = database.ref('accounts/patients/' + identifier);
 
             return patientsRef.remove();
+        };
+
+        function _removeDoctor (crm) {
+            var identifier = crm.replace(/\-/g,"").replace(/\./g,"");
+            var doctorsRef = database.ref('accounts/doctors/' + identifier);
+
+            return doctorsRef.remove();
         };
 
         return service;

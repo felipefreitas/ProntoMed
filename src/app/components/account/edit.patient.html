@@ -2,8 +2,8 @@
 <form name="editForm" ng-submit="editPatient(account.name, account.lastname, account.birthday, account.partner)" novalidate>
 	<div class="form-group row">
 		<div class="col-md-6">
-			<label for="name">CPF</label>	
-			<input type="text" name="cpf" class="form-control" ng-model="account.cpf" mask="999.999.999-99" ng-model-options="{ updateOn: 'blur'}" required readonly>
+			<label for="cpf">CPF</label>	
+			<input type="text" name="cpf" id="cpf" class="form-control" ng-model="account.cpf" mask="999.999.999-99" ng-model-options="{ updateOn: 'blur'}" required readonly>
 		</div>
 	</div>
 	<div class="form-group row">
@@ -12,18 +12,18 @@
 			<input type="text" id="name" name="name" class="form-control" ng-model="account.name" ng-model-options="{ updateOn: 'blur'}" required>
 		</div>
 		<div class="col-md-6">
-			<label for="name">Sobrenome</label>	
-			<input type="text" name="lastname" class="form-control" ng-model="account.lastname" ng-model-options="{ updateOn: 'blur'}" required>
+			<label for="lastname">Sobrenome</label>	
+			<input type="text" name="lastname" id="lastname" class="form-control" ng-model="account.lastname" ng-model-options="{ updateOn: 'blur'}" required>
 		</div>
 	</div>
 	<div class="form-group row">
 		<div class="col-md-6">
-			<label for="name">Nascimento</label>	
-			<input type="text" name="birthday" class="form-control" ng-model="account.birthday" ng-model-options="{ updateOn: 'blur'}" mask="39/19/2999" less-today="account.birthday" required>
+			<label for="birthday">Nascimento</label>	
+			<input type="text" name="birthday" id="birthday" class="form-control" ng-model="account.birthday" ng-model-options="{ updateOn: 'blur'}" mask="39/19/2999" less-today="account.birthday" required>
 		</div>
 		<div class="col-md-6">
-			<label for="name">Convênio</label>	
-			<input type="text" name="partner" class="form-control" ng-model="account.partner" ng-model-options="{ updateOn: 'blur'}" required>
+			<label for="partner	">Convênio</label>	
+			<input type="text" name="partner" id="partner" class="form-control" ng-model="account.partner" ng-model-options="{ updateOn: 'blur'}" required>
 		</div>
 	</div>
 	<br>

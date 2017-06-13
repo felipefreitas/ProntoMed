@@ -1,0 +1,66 @@
+<div class="container">
+<form name="editForm" ng-submit="editDoctor(account.name, account.lastname, account.specialist)" novalidate>
+	<div class="form-group row">
+		<div class="col-md-6">
+			<label for="crm">CRM</label>	
+			<input type="text" name="crm" id="crm" class="form-control" ng-model="account.crm" ng-model-options="{ updateOn: 'blur'}" required readonly>
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-6">
+			<label for="name">Nome</label>	
+			<input type="text" id="name" name="name" class="form-control" ng-model="account.name" ng-model-options="{ updateOn: 'blur'}" required>
+		</div>
+		<div class="col-md-6">
+			<label for="name">Sobrenome</label>	
+			<input type="text" name="lastname" class="form-control" ng-model="account.lastname" ng-model-options="{ updateOn: 'blur'}" required>
+		</div>
+	</div>
+	<div class="form-group row">
+		<div class="col-md-6">
+			<label for="specialist">Especialidades</label>	
+			<div class="form-group">
+	  			<select class="form-control" multiple="multiple" id="specialist" placeholder="Especialidades" ng-model="account.specialist" >
+			        <option>Selecione a especialidade</option>
+					<option value="ACUPUNTURA">ACUPUNTURA</option>
+					<option value="ALERGIA E IMUNOLOGIA">ALERGIA E IMUNOLOGIA</option>
+					<option value="ALERGIA E IMUNOLOGIA PEDIATRICA">ALERGIA E IMUNOLOGIA PEDIATRICA</option>
+					<option value="ANESTESIOLOGIA">ANESTESIOLOGIA</option>
+					<option value="ANGIOLOGIA E CIRURGIA VASCULAR">ANGIOLOGIA E CIRURGIA VASCULAR</option>
+					<option value="ANGIORRADIOLOGIA E CIRURGIA ENDOVASCULAR">ANGIORRADIOLOGIA E CIRURGIA ENDOVASCULAR</option>
+					<option value="CARDIOLOGIA">CARDIOLOGIA</option>
+					<option value="CARDIOLOGIA PEDIATRICA">CARDIOLOGIA PEDIATRICA</option>
+					<option value="CIRURGIA CARDIOVASCULAR">CIRURGIA CARDIOVASCULAR</option>
+					<option value="CIRURGIA CRANIO-MAXILO-FACIAL">CIRURGIA CRANIO-MAXILO-FACIAL</option>
+					<option value="CIRURGIA DA MAO">CIRURGIA DA MAO</option>
+					<option value="CIRURGIA DE CABECA E PESCOCO">CIRURGIA DE CABECA E PESCOCO</option>
+					<option value="CIRURGIA DO TRAUMA">CIRURGIA DO TRAUMA</option>
+					<option value="CIRURGIA GERAL">CIRURGIA GERAL</option>
+					<option value="CIRURGIA PEDIATRICA">CIRURGIA PEDIATRICA</option>
+					<option value="CIRURGIA PLASTICA">CIRURGIA PLASTICA</option>
+					<option value="CIRURGIA TORACICA">CIRURGIA TORACICA</option>
+					<option value="CIRURGIA VIDEOLAPAROSCOPICA">CIRURGIA VIDEOLAPAROSCOPICA</option>
+					<option value="CLINICA MEDICA">CLINICA MEDICA</option>
+					<option value="COLOPROCTOLOGIA">COLOPROCTOLOGIA</option>
+					<option value="DENSITOMETRIA OSSEA">DENSITOMETRIA OSSEA</option>
+					<option value="DERMATOLOGIA">DERMATOLOGIA</option>
+					<option value="DOR">DOR</option>
+					<option value="ECOCARDIOGRAFIA">ECOCARDIOGRAFIA</option>
+					<option value="ECOGRAFIA VASCULAR COM DOPPLER">ECOGRAFIA VASCULAR COM DOPPLER</option>
+					<option value="ELETROFISIOLOGIA CLINICA INVASIVA">ELETROFISIOLOGIA CLINICA INVASIVA</option>
+					<option value="ELETRONEUROMIOGRAFIA">ELETRONEUROMIOGRAFIA</option>
+					<option value="ENDOCRINOLOGIA E METABOLOGIA">ENDOCRINOLOGIA E METABOLOGIA</option>
+					<option value="ENDOCRINOLOGIA PEDIATRICA">ENDOCRINOLOGIA PEDIATRICA</option>
+		      	</select>
+		  	</div>
+		</div>
+	</div>
+	<br>
+	<button class="btn btn-lg btn-primary btn-block" ng-disabled="editForm.$invalid">Salvar</button>
+	<button type="button" class="btn btn-link btn-block" ng-click="removeDoctor(account.crm, $event)">Deletar registro</button>
+</form>
+</div>
+
+<script>
+	
+</script>

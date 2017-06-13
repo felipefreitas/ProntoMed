@@ -26,7 +26,8 @@
     //CONSTANTS
     app.constant('FIREBASE_APP', firebaseApp);
     app.constant('$ROUTE_DICT', {
-        searchPatient: 'portal.searchPatient'
+        searchPatient: 'portal.searchPatient',
+        searchDoctor: 'portal.searchDoctor'
     });
 
     //CONFIGS
