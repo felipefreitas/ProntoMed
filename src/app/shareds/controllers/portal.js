@@ -6,7 +6,7 @@
 		.controller('portalController', portalController)
 		.config(portalConfig);
 
-    portalController.$inject = ['$scope', 'FIREBASE_APP', '$state'];
+    portalController.$inject = ['$scope', '$state', 'FIREBASE_APP', 'authFirebaseService', '$ROUTE_DICT'];
 
 	function portalConfig($stateProvider){
 		$stateProvider.state('portal', {
@@ -21,9 +21,13 @@
         })
 	};
 
-    function portalController($scope, FIREBASE_APP, $state){
+    function portalController($scope, $state, FIREBASE_APP, authFirebaseService, $ROUTE_DICT){
         $scope.messages = {};
 
+        $scope.logout = function (){
+            authFirebaseService.logout();
+            $state.go($ROUTE_DICT.login);
+        };
     };
 
 })();

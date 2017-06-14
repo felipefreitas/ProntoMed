@@ -8,7 +8,7 @@
         .factory('accountService', accountService)
 		.config(accountConfig);
 
-    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state', 'toastService', 'authFirebaseService'];
+    accountController.$inject = ['$scope', 'FIREBASE_APP', 'accountService', '$state', 'toastService', 'authFirebaseService', '$ROUTE_DICT'];
     accountService.$inject = ['FIREBASE_APP'];
     editAccountController.$inject = ['$scope', '$state', 'accountService', 'account', '$ROUTE_DICT', 'toastService', '$mdDialog'];
 
@@ -102,49 +102,22 @@
         })
 	};
 
-    function accountController($scope, FIREBASE_APP, accountService, $state, toastService, authFirebaseService){
+    function accountController($scope, FIREBASE_APP, accountService, $state, toastService, authFirebaseService, $ROUTE_DICT){
         $scope.messages = {};
         
         $scope.login = function (identifier, password){
-            var isDoctor = identifier.includes('BR');
+            var promise = authFirebaseService.login(identifier, password);
 
-            if (isDoctor == true) {
-                var promise = accountService.getDoctorAccount(identifier);
-
-                promise.then(function(account){
-                    if (account) {
-                        if (account.password == password) {
-                            $state.go('portal.doctor');
-                        } else {
-                            $scope.messages['loginFailed'] = true;
-                        }
-                    } else {
-                        $scope.messages['accountNotExistent'] = true;
-                    }
-                    $scope.$apply();    
-                }, function(error){
-                    $scope.messages['failedSystem'] = true;
-                    $scope.$apply();
-                });
-            } else {
-                var promise = accountService.getPatientAccount(identifier);
-
-                promise.then(function(account){
-                    if (account) {
-                        if (account.password == password) {
-                            $state.go('portal.patient');
-                        } else {
-                            $scope.messages['loginFailed'] = true;
-                        }
-                    } else {
-                        $scope.messages['accountNotExistent'] = true;
-                    }
-                    $scope.$apply(); 
-                }, function(error){
-                    $scope.messages['failedSystem'] = true;
-                    $scope.$apply();
-                });
-            }
+            promise.then(function(account){
+                if (account.type == 'doctor') {
+                    $state.go($ROUTE_DICT.searchPatient);
+                } else if ('patient') {
+                    $state.go($ROUTE_DICT.searchDoctor);
+                }
+            }, function(error){
+                $scope.messages[error] = true;
+                $scope.$apply();
+            });
         };
 
         $scope.signupPatient = function(name, lastname, birthday, partner, identifier, password){

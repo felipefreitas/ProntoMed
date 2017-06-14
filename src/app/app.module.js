@@ -28,7 +28,8 @@
     app.constant('FIREBASE_APP', firebaseApp);
     app.constant('$ROUTE_DICT', {
         searchPatient: 'portal.searchPatient',
-        searchDoctor: 'portal.searchDoctor'
+        searchDoctor: 'portal.searchDoctor',
+        login: 'anon.login'
     });
 
     //CONFIGS
@@ -53,5 +54,16 @@
         $rootScope.$state = $state;
         $rootScope.$stateParams = $stateParams;
     });
+
+    app.run(['$rootScope', '$state', 'authFirebaseService', '$ROUTE_DICT', '$location', function ($rootScope, $state, authFirebaseService, $ROUTE_DICT, $location) {
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            if (toState.name.indexOf("portal.") === 0){
+                if (!authFirebaseService.isLoggedIn()) {
+                    event.preventDefault();
+                    $state.go($ROUTE_DICT.login);
+                }
+            }
+        });
+    }]);
 
 })();
