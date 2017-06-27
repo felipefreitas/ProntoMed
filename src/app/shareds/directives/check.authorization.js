@@ -3,15 +3,22 @@
 
 	angular
 		.module('prontomed.widgets', ['prontomed'])
-		.directive('lessToday', [lessToday])
+		.directive('checkAuthorization', ['authFirebaseService', checkAuthorization])
 
-	function lessToday() {
+	function checkAuthorization(authFirebaseService) {
 		  	return {
 			    restrict: 'A',
 			    require: 'ngModel',
 			    link: function(scope, elm, attrs, ctrl) {
 
-					scope.$watch(attrs.lessToday, function(value) {
+			    	function check() {
+			    		if (authFirebaseService.isLoggedIn()) {
+			    			var currentUser = authFirebaseService.currentUser;
+			    			if (currentUser.type == 'doctor') {}
+			    		}
+			    	};
+
+					scope.$watch(attrs.checkAuthorization, function(value) {
 						
 						if (value) {
 							var birthdayString = value;
@@ -19,9 +26,9 @@
 							var today = new Date();
 
 							if (today > birthday) {
-								ctrl.$setValidity('lessToday', true);
+								ctrl.$setValidity('less-today', true);
 							} else {
-								ctrl.$setValidity('lessToday', false);
+								ctrl.$setValidity('less-today', false);
 							}
 						}
 					});

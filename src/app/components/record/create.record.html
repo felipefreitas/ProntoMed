@@ -15,7 +15,12 @@
         <div class="form-group row">
           <div class="col-md-6">
             <label for="cpf">CPF do Paciente</label> 
-            <input type="text" name="cpf" class="form-control" ng-model="record.patient.cpf" ng-model-options="{ updateOn: 'blur'}" required>
+            <div class="input-group">
+               <input type="text" name="cpf" class="form-control" ng-model="record.patient.cpf" mask="999.999.999-99" ng-model-options="{ updateOn: 'blur'}" required>
+               <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ng-click="searchPatient(record.patient.cpf)">Buscar</button>
+               </span>
+            </div>
           </div>
           <div class="col-md-6">
             <label for="patient">Nome do Paciente</label> 
@@ -29,7 +34,7 @@
           </div>
           <div class="col-md-6">
             <label for="old">Idade</label> 
-            <input type="text" name="old" class="form-control" ng-model="record.patient.age" ng-model-options="{ updateOn: 'blur'}" readonly>
+            <input type="text" name="old" class="form-control" ng-model="record.patient.age" ng-model-options="{ updateOn: 'blur'}"  readonly>
           </div>
         </div>
         <div class="form-group row">
@@ -37,15 +42,15 @@
             <label for="reason">Motivo da Consulta</label> 
             <input type="text" name="reason" class="form-control" ng-model="record.reason" ng-model-options="{ updateOn: 'blur'}" required>
           </div>
-          <div class="col-md-6">
-            <label for="date">Data/Hora</label> 
-            <input type="text" name="date" class="form-control" mask="39/19/2999 24:59" ng-model="record.date" ng-model-options="{ updateOn: 'blur'}" required>
+          <div class="col-md-6" ng-class="{'has-danger': editForm.date.$error.lessToday && !editForm.date.$pristine }">
+            <label for="date">Data</label> 
+            <input type="text" name="date" class="form-control form-control-danger" ng-model="record.date" ng-model-options="{ updateOn: 'blur'}" less-today="record.date" mask="39/19/2999" required>
           </div>
         </div>
         <div class="form-group row">
           <div class="col-md-12">
             <label for="specialist">Histórico</label>  
-            <textarea class="form-control" rows="3" ng-model="record.history"></textarea>
+            <textarea class="form-control" rows="3" ng-model="record.history" required></textarea>
           </div>
         </div>
         <br>
