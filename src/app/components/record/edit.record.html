@@ -1,0 +1,73 @@
+<md-content class="md-padding" layout-xs="column" layout="row">
+<div flex-xs flex-gt-xs="80" layout="column">
+  <md-card>
+    <md-card-header>
+      <md-card-avatar>
+        <img src="assets/img/stethoscope.svg">
+      </md-card-avatar>
+      <md-card-header-text>
+        <span class="md-title">Editar Prontuário</span>
+        <span class="md-subhead">Editar as condições de saúde e prescrição de medicamentos ao paciente</span>
+      </md-card-header-text>
+    </md-card-header>
+    <div class="container">
+      <form name="editForm" ng-submit="editRecord(record.patient.cpf, record.reason, record.history)" novalidate>
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label for="cpf">CPF do Paciente</label> 
+            <div class="input-group">
+               <input type="text" name="cpf" class="form-control" ng-model="record.patient.cpf" mask="999.999.999-99" required readonly>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label for="patient">Nome do Paciente</label> 
+            <input type="text" name="patient" class="form-control" ng-model="record.patient.name" ng-model-options="{ updateOn: 'blur'}" required readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label for="birthday">Nascimento</label> 
+            <input type="text" name="birthday" class="form-control" ng-model="record.patient.birthday" ng-model-options="{ updateOn: 'blur'}" readonly>
+          </div>
+          <div class="col-md-6">
+            <label for="old">Idade</label> 
+            <input type="text" name="old" class="form-control" ng-model="record.patient.age" ng-model-options="{ updateOn: 'blur'}"  readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-6">
+            <label for="reason">Motivo da Consulta</label> 
+            <input type="text" name="reason" class="form-control" ng-model="record.reason" ng-model-options="{ updateOn: 'blur'}" required>
+          </div>
+          <div class="col-md-6" ng-class="{'has-danger': editForm.date.$error.lessToday && !editForm.date.$pristine }">
+            <label for="date">Data do Atendimento</label> 
+            <input type="text" name="date" class="form-control form-control-danger" ng-model="record.date" ng-model-options="{ updateOn: 'blur'}" less-today="record.date" mask="39/19/2999" required readonly>
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-12">
+            <label for="specialist">Histórico</label>  
+            <textarea class="form-control" rows="3" ng-model="record.history" required></textarea>
+          </div>
+        </div>
+        <br>
+        <button class="btn btn-lg btn-primary btn-block" ng-disabled="editForm.$invalid">Salvar</button>
+        <br>
+      </form>
+    </div>
+  </md-card>
+</div>
+<div flex-xs flex-gt-xs="20" layout="column">
+  <md-card>
+    <md-card-header>
+      <md-card-header-text>
+        <span class="md-subhead">Opções</span>
+      </md-card-header-text>
+    </md-card-header>  
+    <div class="container">
+      <button class="btn btn-secondary btn-block" ng-disabled="editForm.$invalid">Editar Exame</button>
+    </div>
+    <br>
+  </md-card>
+</div>
+</md-content>
