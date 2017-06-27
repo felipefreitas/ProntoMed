@@ -74,3 +74,16 @@ md-toast.md-info-toast-theme .md-toast-content {
 md-toast {
   left: calc(50vw - 150px);
 }
+
+@media (min-width: 960px)
+.container .md-padding {
+    padding: 0px !important;
+}
+
+.container .md-padding {
+    padding: 0px !important;
+}
+
+.container .md-content.md-default-theme, md-content {
+    background-color: rgb(255, 255, 255);
+}
