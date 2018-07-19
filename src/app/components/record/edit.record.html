@@ -65,8 +65,8 @@
       </md-card-header-text>
     </md-card-header>  
     <div class="container">
-      <button class="btn btn-secondary btn-block" ng-disabled="editForm.$invalid">Editar Exame</button>
-      <button class="btn btn-danger btn-block" ng-disabled="editForm.$invalid">Excluir Prontuário</button>
+      <button class="btn btn-secondary btn-block" ng-disabled="editForm.$invalid" ng-click="editExams()">Editar Exames</button>
+      <button type="button" class="btn btn-link btn-block" ng-click="removeRecord(record.id, $event)">Deletar Prontuário</button>
     </div>
     <br>
   </md-card>

@@ -19,7 +19,6 @@
 			    	};
 
 					scope.$watch(attrs.checkAuthorization, function(value) {
-						
 						if (value) {
 							var birthdayString = value;
 							var birthday = new Date(birthdayString.split('/', 3)[2], birthdayString.split('/', 3)[1]-1, birthdayString.split('/', 3)[0]);

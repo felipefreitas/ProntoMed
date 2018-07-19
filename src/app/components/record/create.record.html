@@ -66,9 +66,9 @@
       <md-card-header-text>
         <span class="md-subhead">Opções</span>
       </md-card-header-text>
-    </md-card-header>  
+    </md-card-header>   
     <div class="container">
-      <button class="btn btn-secondary btn-block" ng-disabled="editForm.$invalid">Solicitar Exame</button>
+      <button type="button" class="btn btn-secondary btn-block" ng-disabled="editForm.$invalid" ng-click="requestExam(record.patient.cpf, record.reason, record.date, record.history)">Solicitar Exame</button>
     </div>
     <br>
   </md-card>

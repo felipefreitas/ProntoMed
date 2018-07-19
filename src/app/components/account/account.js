@@ -338,7 +338,7 @@
             var identifier = cpf.replace(/\-/g,"").replace(/\./g,"");
             var patientsRef = database.ref('/accounts/patients/');
 
-            return patientsRef.orderByChild('cpf').startAt(cpf.toString()).once('value').then(function(data) {
+            return patientsRef.orderByChild('cpf').equalTo(identifier.toString()).once('value').then(function(data) {
                 var patients = [];
                 $.each(data.val(),function(){
                     var patient = {
@@ -361,7 +361,7 @@
         function _getDoctorAccountList (data, type){
             var doctorsRef = database.ref('/accounts/doctors/');
 
-            return doctorsRef.orderByChild(type).startAt(data.toString()).once('value').then(function(data) {
+            return doctorsRef.orderByChild(type).equalTo(data.toString()).once('value').then(function(data) {
                 var doctors = [];
                 $.each(data.val(),function(){
                     var doctor = {

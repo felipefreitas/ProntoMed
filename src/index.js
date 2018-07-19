@@ -20,6 +20,11 @@ app.get('*', function(req, res) {
     res.sendFile('./index.html', { root: __dirname });
 });
 
+app.get('/admin', function(req, res) {
+    res.sendFile('./index.admin.html', { root: __dirname });
+});
+
+
 var admin = require("firebase-admin");
 var serviceAccount = require("./app/shareds/auth.credentials.json");
 

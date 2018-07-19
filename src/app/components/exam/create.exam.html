@@ -1,0 +1,75 @@
+<md-content class="md-padding" layout-xs="column" layout="column">
+	<div flex-xs flex-gt-xs="20" layout="column">
+		<md-card>
+		    <md-card-header>
+		      <md-card-header-text>
+		      </md-card-header-text>
+		    </md-card-header>  
+		    <div class="container">
+		    	<div class="form-group row">
+					<div class="col-md-4">
+						<small id="passwordHelpInline" class="text-muted">
+					      Nome do Paciente
+					    </small>	
+						<p class="form-control-static">{{record.patient.name}}</p>
+					</div>
+					<div class="col-md-4">
+						<small id="passwordHelpInline" class="text-muted">
+					      CPF
+					    </small>		
+						<p class="form-control-static">{{record.patient.cpf}}</p>
+					</div>
+					<div class="col-md-4">
+						<small id="passwordHelpInline" class="text-muted">
+					      Código do Prontuário
+					    </small>		
+						<p class="form-control-static">{{record.id}}</p>
+					</div>
+				</div>
+		    </div>
+	  	</md-card>
+	</div>
+	<br>
+	<div flex-xs flex-gt-xs="20" layout="column">
+		<md-card>
+		    <md-card-header>
+		      <md-card-header-text>
+		      </md-card-header-text>
+		    </md-card-header>  
+		    <div class="container">
+		    	<div class="input-group">
+				   <input type="text" name="description" id="description" class="form-control" placeholder="Descrição do Exame" ng-model="description" required>
+				   <span class="input-group-btn">
+				        <button class="btn btn-default" type="button" ng-click="createExam(description, 'Aguardando', record.id)" ng-disabled="description.$error">Adicionar</button>
+				   </span>
+				</div>
+				<br>
+		    </div>
+	  	</md-card>
+	</div>
+	<br>
+	<div flex-xs flex-gt-xs="80" layout="column">
+		<md-card>
+		<div class="container">
+			<div class="row">
+				<table class="table table-hover table-striped" ng-show="exams.length > 0">
+				  <thead>
+				    <tr>
+				      <th>#</th>
+				      <th>Descrição</th>
+				      <th>Resultado</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				  	<tr ng-repeat="exam in exams | orderBy: '-exam.description'" ui-sref="portal.deleteExam({id: exam.id})">
+			            <th scope="row">#{{$index + 1}}</th>
+			            <td>{{exam.description}}</td>
+			            <td>{{exam.result}}</td>
+		          	</tr>
+				  </tbody>
+				</table>
+			</div>
+		</div>
+		</md-card>
+	</div>
+</md-content>
